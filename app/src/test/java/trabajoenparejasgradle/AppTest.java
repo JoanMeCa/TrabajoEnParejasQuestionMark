@@ -59,9 +59,11 @@ class AppTest {
     void calcularTotalPedido() {
         App app = new App();
         app.agregarPlatoAlMenu("Pasta", 12.75);
+        app.agregarPlatoAlMenu("Pizza", 10.25);
         int idPedido = app.crearPedido();
         app.agregarPlatoAlPedido(idPedido, "Pasta");
-        assertEquals(12.75, app.calcularTotalPedido(idPedido));
+        app.agregarPlatoAlPedido(idPedido, "Pizza");
+        assertEquals(23, app.calcularTotalPedido(idPedido));
     }
 
     @Test
