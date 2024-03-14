@@ -15,7 +15,6 @@ class AppTest {
     void agregarPlatoAlMenu() {
         App app = new App();
         app.agregarPlatoAlMenu("Pizza", 10.99);
-
         assertTrue(app.getMenu().containsKey("Pizza"));
         assertEquals(10.99, app.getMenu().get("Pizza"));
     }
@@ -25,17 +24,19 @@ class AppTest {
         App app = new App();
         app.agregarPlatoAlMenu("Ensalada", 7.99);
         app.eliminarPlatoDelMenu("Ensalada");
-
         assertFalse(app.getMenu().containsKey("Ensalada"));
     }
 
     @Test
     void listarMenu() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
         App app = new App();
         app.agregarPlatoAlMenu("Hamburguesa", 8.50);
         app.agregarPlatoAlMenu("Refresco", 2.50);
-        assertTrue(app.getMenu().containsKey("Hamburguesa"));
-        assertTrue(app.getMenu().containsKey("Refresco"));
+        app.listarMenu();
+        assertTrue(outContent.toString().contains("Hamburguesa"));
+        assertTrue(outContent.toString().contains("Refresco"));
     }
 
     @Test
@@ -65,7 +66,6 @@ class AppTest {
 
     @Test
     void mostrarPedido() {
-        // Redirige la salida estándar para capturarla
         ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStreamCaptor));
         App app = new App();
@@ -73,7 +73,6 @@ class AppTest {
         int idPedido = app.crearPedido();
         app.agregarPlatoAlPedido(idPedido, "Tacos");
         app.mostrarPedido(idPedido);
-        System.setOut(System.out);
         assertTrue(outputStreamCaptor.toString().contains("Tacos"));
         assertTrue(outputStreamCaptor.toString().contains("9.25"));
     }
